@@ -1,0 +1,68 @@
+/* book-details.css */
+
+/* ... (seus estilos existentes para .btn-primary, .btn-outline-primary, etc.) ... */
+
+/* --- EFEITO DE DEGRADÊ ANIMADO PARA O BOTÃO 'LER ONLINE' (ESCONDIDO POR PADRÃO) --- */
+.btn-outline-primary { /* Alvo: O botão "Ler Online" */
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: color 0.4s ease-in-out;
+    border: 2px solid; /* Borda padrão, que pode mudar para o degradê */
+    border-color: #007bff; /* Cor da borda padrão do Bootstrap */
+    color: #007bff; /* Cor do texto padrão do Bootstrap */
+}
+
+/* O pseudo-elemento do gradiente, inicialmente invisível ou inativo */
+.btn-outline-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        #6a11cb 0%,     /* Roxo */
+        #2575fc 20%,    /* Azul */
+        #4CAF50 40%,    /* Verde */
+        #FFEB3B 60%,    /* Amarelo */
+        #FF9800 80%,    /* Laranja */
+        #F44336 100%    /* Vermelho */
+    );
+    background-size: 200% 100%;
+    background-position: 100% 0; /* Começa à direita, fora de vista */
+    z-index: -1;
+    transition: background-position 0.6s ease-out; /* Transição para a animação */
+    opacity: 0; /* **Inicialmente invisível!** */
+    transition: background-position 0.6s ease-out, opacity 0.6s ease-out; /* Transição para a opacidade também */
+}
+
+/* Estado de hover Padrão (antes do Konami Code) */
+.btn-outline-primary:hover {
+    color: #007bff; /* Mantém a cor original no hover */
+    background-color: transparent; /* Garante que o fundo não mude */
+    opacity: 0.9; /* Pequena opacidade no hover */
+}
+
+/* --- ESTILOS ATIVADOS PELO KONAMI CODE --- */
+/* Quando a classe 'konami-active' é adicionada ao body */
+body.konami-active .btn-outline-primary {
+    border-image-slice: 1; /* Ativa o border-image para o gradiente na borda */
+    border-image-source: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+    color: white; /* Muda a cor do texto para branco após a ativação */
+    transition: color 0.4s ease-in-out; /* Suaviza a mudança de cor */
+}
+
+body.konami-active .btn-outline-primary::before {
+    opacity: 1; /* Torna o gradiente visível após a ativação */
+}
+
+/* Animação do gradiente no hover APÓS o Konami Code */
+body.konami-active .btn-outline-primary:hover {
+    color: white; /* Mantém o texto branco no hover */
+    opacity: 1; /* Sem opacidade */
+}
+
+body.konami-active .btn-outline-primary:hover::before {
+    background-position: 0 0; /* O gradiente se move no hover */
+}
